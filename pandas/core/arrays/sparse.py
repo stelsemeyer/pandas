@@ -1157,7 +1157,10 @@ class SparseArray(PandasObject, ExtensionArray, ExtensionOpsMixin):
 
     def _take_with_fill(self, indices, fill_value=None):
         if fill_value is None:
-            fill_value = self.dtype.na_value
+            if self.fill_value is None:
+                fill_value = self.dtype.na_value
+            else:
+                fill_value = self.fill_value
 
         if indices.min() < -1:
             raise ValueError(
